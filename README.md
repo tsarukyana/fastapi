@@ -1,4 +1,7 @@
-## fastapi
+# fastapi 
+
+## requirements
+* Python 3.10.4
 
 ### Setup
 ```bash
