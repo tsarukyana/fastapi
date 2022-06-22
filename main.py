@@ -1,16 +1,31 @@
-from fastapi import FastAPI, Path, Query
+from fastapi import Body, FastAPI
+from pydantic import BaseModel
 
 app = FastAPI()
 
 
-@app.get("/items/{item_id}")
-async def read_items(
+class Item(BaseModel):
+    name: str
+    description: str | None = None
+    price: float
+    tax: float | None = None
+
+
+class User(BaseModel):
+    username: str
+    full_name: str | None = None
+
+
+@app.put("/items/{item_id}")
+async def update_item(
     *,
-    item_id: int = Path(title="The ID of the item to get", ge=0, le=1000),
-    q: str,
-    size: float = Query(gt=0, lt=10.5)
+    item_id: int,
+    item: Item,
+    user: User,
+    importance: int = Body(gt=0),
+    q: str | None = None
 ):
-    results = {"item_id": item_id}
+    results = {"item_id": item_id, "item": item, "user": user, "importance": importance}
     if q:
         results.update({"q": q})
     return results
