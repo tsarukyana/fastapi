@@ -1,25 +1,8 @@
-from fastapi import FastAPI
-from pydantic import BaseModel
+from fastapi import FastAPI, status
 
 app = FastAPI()
 
 
-class Item(BaseModel):
-    name: str
-    description: str
-
-
-items = [
-    {"name": "Foo", "description": "There comes my hero"},
-    {"name": "Red", "description": "It's my aeroplane"},
-]
-
-
-@app.get("/items/", response_model=list[Item])
-async def read_items():
-    return items
-
-
-@app.get("/keyword-weights/", response_model=dict[str, float])
-async def read_keyword_weights():
-    return {"foo": 2.3, "bar": 3.4}
+@app.post("/items/", status_code=status.HTTP_201_CREATED)
+async def create_item(name: str):
+    return {"name": name}
