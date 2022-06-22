@@ -1,8 +1,8 @@
-from fastapi import Cookie, FastAPI
+from fastapi import FastAPI, Header
 
 app = FastAPI()
 
 
 @app.get("/items/")
-async def read_items(ads_id: str | None = Cookie(default=None)):
-    return {"ads_id": ads_id}
+async def read_items(x_token: list[str] | None = Header(default=None)):
+    return {"X-Token values": x_token}
