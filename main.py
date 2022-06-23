@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
 
 description = """
 ChimichangApp API helps you do awesome stuff. 🚀
@@ -47,6 +48,7 @@ app = FastAPI(
     openapi_tags=tags_metadata
 )
 
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 @app.get("/users/", tags=["users"])
 async def get_users():
